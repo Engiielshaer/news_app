@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/model/SourceResponse.dart';
+import 'package:news_app/news/news_widget.dart';
 import 'package:news_app/tabs/tab_item.dart';
 
 
@@ -18,8 +19,6 @@ class _TabWidgetState extends State<TabWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return DefaultTabController(
         length:widget.sourceList.length,
         child:Column(
@@ -34,11 +33,13 @@ class _TabWidgetState extends State<TabWidget> {
                 });
               },
               tabs:  widget.sourceList.map((source) =>
-                  TabItem(isSelected:selectedItem == widget.sourceList.indexOf(source) ,
+                  TabItem(isSelected:selectedItem == widget.sourceList.indexOf(source),
                       source: source)).toList(),
-            )
+            ),
+            Expanded(child: NewsWidget(source: widget.sourceList[selectedItem],))
+
           ],
-        )
+        ),
         );
   }
 }

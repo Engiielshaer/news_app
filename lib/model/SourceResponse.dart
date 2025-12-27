@@ -12,7 +12,7 @@ class SourceResponse {
   SourceResponse.fromJson(dynamic json) {
     status = json['status'];
     code = json['code'];
-    message = json['messageb'];
+    message = json['message'];
     if (json['sources'] != null) {
       sources = [];
       json['sources'].forEach((v) {
