@@ -1,6 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:news_app/home_screen/category/category_details.dart';
+import 'package:news_app/home_screen/category/category_fragment.dart';
+import 'package:news_app/home_screen/drawer/home_drawer.dart';
+import 'package:news_app/home_screen/settings/settings.dart';
+import 'package:news_app/model/Category.dart';
 import 'package:news_app/model/SourceResponse.dart';
 import 'package:news_app/model/api_manager.dart';
 import 'package:news_app/tabs/tab_widget.dart';
@@ -31,14 +35,38 @@ class _HomeScreenState extends State<HomeScreen> {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: Text(
-              'News App',
+            title: Text( selectedDrawerItem== HomeDrawer.settings ?'settings' :
+                selectedCategory==null ?
+              'News App' : selectedCategory!.title,
               style: Theme.of(context).textTheme.titleLarge,
             ),
+              iconTheme: IconThemeData(color:AppColors.whiteColor)
           ),
-          body:CategoryDetails(),
+          drawer:Drawer(
+            child: HomeDrawer(onDrawerItemClick:onDrawerItemClick ,),
+          ),
+
+          body:selectedDrawerItem == HomeDrawer.settings ?
+              SettingsTab() :
+          selectedCategory ==null ?
+          CategoryFragment(onCategoryItemClick:onCategoryItemClick ,):
+          CategoryDetails(category: selectedCategory!),
         )
-      ],
-    );
+      ],);
+  }
+  Category? selectedCategory;
+  void onCategoryItemClick(Category newCategory){
+    selectedCategory = newCategory;
+    setState(() {});
+  }
+
+  int selectedDrawerItem=HomeDrawer.categories;
+  void onDrawerItemClick(int newSelectedDrawerItem){
+    selectedDrawerItem = newSelectedDrawerItem;
+    selectedCategory = null;
+    Navigator.pop(context);
+    setState(() {
+
+    });
   }
 }

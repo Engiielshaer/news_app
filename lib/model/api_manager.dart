@@ -7,20 +7,22 @@ import 'package:news_app/model/api_constants.dart';
 
 class ApiManager{
 
-  static Future<SourceResponse?> getSources() async {
+  static Future<SourceResponse?> getSources(String categoryId) async {
     Uri url = Uri.https(
       ApiConstants.baseUrl,
       ApiConstants.sourceApi,
-      {'apiKey': ApiConstants.ApiKey},
+      {'apiKey': ApiConstants.ApiKey,
+        'category' : categoryId
+      },
     );
 
     try {
-      //  نحط الاتصال هنا جوا try
+
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
-        return SourceResponse.fromJson(json); //  هنا بنرجع النتيجة
+        return SourceResponse.fromJson(json);
       } else {
         print('Server error: ${response.statusCode}');
         return null;
@@ -39,7 +41,8 @@ class ApiManager{
       ApiConstants.baseUrl,
       ApiConstants.newsApi,
       {'apiKey' : '33b6fd305be84f048579495295fb8fc8',
-        'sources' : sourceId}
+        'sources' : sourceId,
+      }
     );
     try{
       var response=await http.get(url);
